@@ -201,7 +201,7 @@ def to_dict_from_node(node, data_converter=None):
     return [_convert(root, data_converter) for root in roots]
 
 
-def from_dict(tree_dict, data_converter=None):
+def from_dict(tree_dict, data_converter=None, cls=None):
     """
     Converts a dict into a tree of Nodes, with the return value being the
     root node.
@@ -211,10 +211,11 @@ def from_dict(tree_dict, data_converter=None):
     :rtype: treestruct.Node
     """
 
+    cls = treestruct.Node if cls is None else cls
     data_converter = (lambda n: n) if data_converter is None else data_converter
 
     def _build_tree(struct, converter):
-        node = treestruct.Node(converter(struct['data']))
+        node = cls(converter(struct['data']))
         for child_struct in struct.get('children'):
             node.children.add(_build_tree(child_struct, converter))
         return node
@@ -243,27 +244,31 @@ def delete_node_relationships(node, direction=None):
     return node
 
 
-def clone_subtree(node):
+def clone_subtree(node, cls=None):
     """
     Clones the node and all its child nodes and forms a new root.
 
     :type node: Node
     :rtype: Node
     """
-    return treestruct.Node(node.data, children=map(clone_subtree, node.children))
+
+    cls = treestruct.Node if cls is None else cls
+    return cls(node.data, children=map(clone_subtree, node.children))
 
 
-def node_from_node_sequence(nodes):
+def node_from_node_sequence(nodes, cls=None):
     """
     Creates a flat tree structure from a list of nodes. It is assumed that the first Node
     in the list is the root and each subsequent Node is a child. Any existing parents or
     children will be disregarded.
 
-    :type nodes: collections.Iterable[treestruct.Node]
+    :type nodes: collections.Sequence[treestruct.Node]
     :rtype: treestruct.Node
     """
 
     if not nodes:
         return None
+
+    cls = treestruct.Node if cls is None else cls
     child = node_from_node_sequence(nodes[1:])
-    return treestruct.Node(data=nodes[0].data, children=[child] if child else [])
+    return cls(data=nodes[0].data, children=[child] if child else [])

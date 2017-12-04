@@ -39,18 +39,18 @@ class Graph(object):
         self.node.depth_first_traversal(callback=formatter, direction=treestruct.FORWARD, obj=self.graph)
 
     def save(self, **options):
-        self._output_func(self.graph.save, **options)
+        return self._output_func(self.graph.save, **options)
 
     def render(self, **options):
-        self._output_func(self.graph.render, **options)
+        return self._output_func(self.graph.render, **options)
 
     def view(self, **options):
-        self._output_func(self.graph.view, **options)
+        return self._output_func(self.graph.view, **options)
 
     def _output_func(self, func, **options):
         if not self.__did_draw:
             self.draw_links()
-        func(**options)
+        return func(**options)
 
 
 def simple_graph(node, options=None, node_formatter=None):

@@ -94,7 +94,7 @@ class Node(object):
         self.data = data
 
     def __repr__(self):
-        return '<Node {}>'.format(self.data)
+        return '<{} {}>'.format(type(self).__name__, self.data)
 
     @property
     def connections(self):
@@ -228,7 +228,7 @@ class Node(object):
         :rtype: Node
         """
 
-        return helpers.clone_subtree(node=self)
+        return helpers.clone_subtree(node=self, cls=type(self))
 
     def find_all(self, condition, direction=None):
         """
@@ -275,7 +275,7 @@ class Node(object):
         :rtype: Node
         """
 
-        return helpers.from_dict(tree_dict=tree_dict, data_converter=data_converter)
+        return helpers.from_dict(tree_dict=tree_dict, data_converter=data_converter, cls=cls)
 
     @classmethod
     def from_nodes(cls, nodes):
@@ -284,8 +284,8 @@ class Node(object):
         in the list is the root and each subsequent Node is a child. Any existing parents or
         children will be disregarded.
 
-        :type nodes: collections.Iterable[Node]
+        :type nodes: collections.Sequence[Node]
         :rtype: Node
         """
 
-        return helpers.node_from_node_sequence(nodes)
+        return helpers.node_from_node_sequence(nodes=nodes, cls=cls)
