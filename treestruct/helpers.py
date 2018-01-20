@@ -270,5 +270,5 @@ def node_from_node_sequence(nodes, cls=None):
         return None
 
     cls = treestruct.Node if cls is None else cls
-    child = node_from_node_sequence(nodes[1:])
+    child = node_from_node_sequence(nodes[1:], cls=cls)
     return cls(data=nodes[0].data, children=[child] if child else [])

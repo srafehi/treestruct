@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='treestruct',
-    version='0.1.1',
+    version='0.1.2',
     description='Simplify the task of creating, traversing, manipulating and visualizing tree structure',
     author='Shady Rafehi',
     url='https://github.com/srafehi/treestruct',
