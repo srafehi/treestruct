@@ -253,7 +253,7 @@ def clone_subtree(node, cls=None):
     """
 
     cls = treestruct.Node if cls is None else cls
-    return cls(node.data, children=map(clone_subtree, node.children))
+    return cls(node.data, children=[clone_subtree(node=child, cls=cls) for child in node.children])
 
 
 def node_from_node_sequence(nodes, cls=None):
