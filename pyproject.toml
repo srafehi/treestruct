@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "treestruct"
-version = "0.1.4"
+version = "0.1.5"
 description = "Simplify the task of creating, traversing, manipulating and visualizing tree structures"
 authors = ["Shady Rafehi <shadyrafehi@gmail.com>"]
 license = "MIT"
