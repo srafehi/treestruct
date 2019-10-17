@@ -15,6 +15,8 @@ class NodeSet(MutableSet):
     node's `parent` NodeSet will automatically be populated with the owner of this NodeSet.
     """
 
+    __slots__ = ('owner', 'items', 'direction')
+
     def __init__(self, owner, items, direction):
         """
         :type owner: Node
@@ -28,7 +30,7 @@ class NodeSet(MutableSet):
         self.update(items)
 
     def __iter__(self):
-        return self.items.__iter__()
+        return iter(self.items)
 
     def __len__(self):
         return len(self.items)
@@ -57,11 +59,13 @@ class NodeSet(MutableSet):
             value.direction(self.direction * -1).items.discard(self.owner)
         return self.items.discard(value)
 
-    def update(self, s):
-        map(self.add, s)
+    def update(self, nodes):
+        for node in nodes:
+            self.add(node)
 
-    def discard_many(self, s):
-        map(self.discard, s)
+    def discard_many(self, nodes):
+        for node in nodes:
+            self.discard(node)
 
     def one(self, raise_on_empty=False):
         """
@@ -87,6 +91,8 @@ class NodeSet(MutableSet):
 
 
 class Node(object):
+
+    __slots__ = ('parents', 'children', 'data')
 
     def __init__(self, data=None, parents=None, children=None):
         self.parents = NodeSet(self, [] if parents is None else parents, BACKWARD)
