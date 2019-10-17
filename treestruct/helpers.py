@@ -212,10 +212,9 @@ def from_dict(tree_dict, data_converter=None, cls=None):
     """
 
     cls = treestruct.Node if cls is None else cls
-    data_converter = (lambda n: n) if data_converter is None else data_converter
 
     def _build_tree(struct, converter):
-        node = cls(converter(struct['data']))
+        node = cls(converter(struct['data']) if converter else struct['data'])
         for child_struct in struct.get('children'):
             node.children.add(_build_tree(child_struct, converter))
         return node
